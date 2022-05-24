@@ -37,12 +37,13 @@ router.get('/users/:username', (req, res) => {
             '#un': 'username',
             '#ca': 'createdAt',
             '#th': 'thought',
+            '#img': 'image'
         },
         ExpressionAttributeValues: {
             ':user': req.params.username,
         },
         // similar to SELECT in SQL, determines which attributes/columns will be returned
-        ProjectionExpression: '#th, #ca',
+        ProjectionExpression: '#un, #th, #ca, #img',
         // determines the order for the sort. true for ascending and false for descending
         ScanIndexForward: false,
     };
@@ -68,6 +69,7 @@ router.post('/users', (req, res) => {
             username: req.body.username,
             createdAt: Date.now(),
             thought: req.body.thought,
+            image: req.body.image
         },
     };
     dynamodb.put(params, (err, data) => {
